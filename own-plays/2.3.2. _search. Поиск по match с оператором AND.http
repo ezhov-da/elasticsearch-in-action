@@ -1,0 +1,69 @@
+# [[elasticsearch-Elasticsearch in Action. Manning.pdf#page=71&selection=11,0,11,33|elasticsearch-Elasticsearch in Action. Manning, страница 71]]
+# Пробуем найти автора по имени и несуществующей фамилии и
+# оказывается, что он находит, так как неявно используется оператор OR
+# tweak - подправить
+
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "author": "Joshua Schildt"
+        }
+    }
+}
+
+###
+
+## Немного подправим запрос с использованием оператора
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "author": {
+                "query": "Joshua Schildt",
+                "operator": "AND"
+            }
+        }
+    }
+}
+
+###
+
+## Немного подправим запрос с использованием оператора
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "author": {
+                "query": "Joshua Schildt",
+                "operator": "AND"
+            }
+        }
+    }
+}
+
+###
+## Попробуем найти по заголовку
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "title": {
+                "query": "Effective Java",
+                "operator": "AND"
+            }
+        }
+    }
+}

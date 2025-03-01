@@ -1,0 +1,44 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+###
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "settings":{
+        "number_of_shards":3,
+        "number_of_replicas":5,
+        "codec": "best_compression",
+        "max_script_fields":128,
+        "refresh_interval": "60s"
+    }
+}
+
+###
+GET {{baseUrl}}/111/_settings
+Authorization: {{auth}}
+content-type: application/json
+
+###
+GET {{baseUrl}}/11*/_settings
+Authorization: {{auth}}
+content-type: application/json
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{"title": "Elasticsearch in Action"}
+
+###
+POST {{baseUrl}}/111/_search
+Authorization: {{auth}}
+content-type: application/json

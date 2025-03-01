@@ -1,0 +1,36 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Avatar",
+    "rating":9.3,
+    "rating_amazon":4.5,
+    "rating_rotten_tomatoes":80,
+    "rating_metacritic":90
+}
+
+###
+# Необходимо оборачивать в doc
+POST {{baseUrl}}/111/_update/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "doc": {
+        "one":"123"
+    }
+}
+
+### 
+GET {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json

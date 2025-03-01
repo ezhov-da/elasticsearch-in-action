@@ -1,0 +1,35 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "one":"60s",
+    "two":"60s",
+    "three":"60s"
+}
+
+### 
+# Получение только необходимых полей c метадатой
+GET {{baseUrl}}/111/_doc/1?_source_includes=one,two
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+# Получение только необходимых полей c телом объекта
+GET {{baseUrl}}/111/_source/1?_source_includes=one,two
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+# Исключение полей c метадатой
+GET {{baseUrl}}/111/_doc/1?_source_excludes=one,two
+Authorization: {{auth}}
+content-type: application/json

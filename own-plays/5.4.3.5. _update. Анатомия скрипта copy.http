@@ -1,0 +1,47 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Avatar",
+    "actors": ["Denis"],
+    "rating":9.3,
+    "rating_amazon":4.5,
+    "rating_rotten_tomatoes":80,
+    "rating_metacritic":90
+}
+
+###
+# source - исходный код
+# lang - язык. "painless|mustache|expression|java"
+# params - параметры
+# Скрипт компилируется один раз.
+POST {{baseUrl}}/111/_update/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "script": {
+        "source": """
+        if(ctx._source.boxoffice_gross_in_millions > params.gross_earnings_threshold)
+        {ctx._source.blockbuster = true}
+        else
+        {ctx._source.blockbuster = false}
+        """,
+        "lang": "painless",
+        "params": { "gross_earnings_threshold":150 }
+    }
+}
+
+### 
+GET {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json

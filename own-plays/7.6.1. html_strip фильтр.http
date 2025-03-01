@@ -1,0 +1,54 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+### 
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "custom_html_strip_filter_analyzer": {
+                    "tokenizer":"keyword",
+                    "char_filter":["my_html_strip_filter"]
+                }
+            },
+            "char_filter": {
+                "my_html_strip_filter":{
+                    "type":"html_strip",
+                    "escaped_tags":["h1"]
+                }
+            }
+        }
+    }
+}
+
+
+### 
+# "<h1>Hello,</h1> \nWorld!\n"
+GET {{baseUrl}}/111/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text": "<h1>Hello,</h1> <h2>World!</h2>",
+    "analyzer": "custom_html_strip_filter_analyzer"
+}
+
+### 
+GET {{baseUrl}}/111/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text":"<h1>Where is my cheese?</h1><img src='test'/>",
+    "tokenizer": "standard",
+    "char_filter": ["my_html_strip_filter"]
+}

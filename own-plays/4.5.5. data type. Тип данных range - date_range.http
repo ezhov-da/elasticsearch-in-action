@@ -1,0 +1,67 @@
+# Типы данных диапазона представляют собой нижние 
+# и верхние границы для поля. Например, если мы хотим 
+# выбрать группу добровольцев для испытания вакцины, 
+# мы можем разделить добровольцев на основе таких категорий, 
+# как возраст 25–50 или 51–70, демографические данные, 
+# такие как уровень дохода, городские жители и т. д. 
+
+# Поле типа date_range ожидает два значения: 
+# верхнюю границу и нижнюю границу.
+
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "name": { "type": "text"},
+            "training_dates": {
+                "type": "date_range"
+            }
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "name":"Functional Programming in Java",
+    "training_dates":{
+        "gte":"2021-08-07",
+        "lte":"2021-08-10"
+    }
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "range": {
+            "training_dates" : {
+                "gte": "2020-08-10",
+                "lt": "2021-08-12"
+            }
+        }
+    }
+}
+
+# Удаление индексов --------------------------
+
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json

@@ -1,0 +1,109 @@
+# Большинство поисковых систем предлагают слова и фразы 
+# по мере того, как мы набираем текст в строке поиска. 
+# Эта функция имеет разные названия: поиск по мере ввода, 
+# опережающий ввод, автозаполнение или предложения. Elasticsearch 
+# предоставляет удобный тип данных, называемый search_as_you_type, 
+# для поддержки этой функции. За кулисами Elasticsearch 
+# очень усердно работает над тем, чтобы поля, помеченные 
+# как search_as_you_type, индексировались для создания 
+
+# При индексации поля как search_as_you_type
+# создаются следующие поля:
+# - title
+# The title field is indexed with either a chosen analyzer 
+# or the default analyzer if one is not chosen.
+# If a standard analyzer is used, the title is tokenized and 
+# normalized based on the standard analyzer’s rules.
+# 
+# - title._2gram
+# The title field’s analyzer is custom- ized with a shingle-token 
+# filter. The shingle size is set to 2 on this filter.
+# Generates two tokens for the given text. For example, the 2-grams 
+# for the title "Elastic- search in Action" are["elasticsearch", "in"],
+# ["in","action"]
+# 
+# - title._3gram
+# The title field’s analyzer is customized 
+# with a shingle-token filter. The shingle size is 
+# set to 3 on this filter
+# Generates three tokens for the given text. For example, the 3-grams 
+# for the title "Elasticsearch for Java developers" are 
+# ["elasticsearch","for","java"], ["for","java","developers"]
+# 
+# - title._index prefix
+# The analyzer of title._3gram is applied 
+# along with an edge n-gram token filter
+# Generates edge n-grams for the field title._3grams. 
+# For example, the _index_prefix generates the following 
+# edge n-grams for the world 
+# "Elastic": [e, el, ela, elas, elast, elasti, elastic]
+
+
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "title": { 
+                "type": "search_as_you_type"
+            }
+        }
+    }
+}
+
+### 
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Elasticsearch in Action"
+}
+
+### 
+PUT {{baseUrl}}/123/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+     "title":"Elasticsearch for Java Developers"
+}
+
+### 
+PUT {{baseUrl}}/123/_doc/3
+Authorization: {{auth}}
+content-type: application/json
+
+{
+     "title":"Elastic Stack in Action"
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "multi_match": {
+           "query": "ela",
+           "type": "bool_prefix",
+           "fields": ["title","title._2gram","title._3gram"]
+        }
+    }
+}

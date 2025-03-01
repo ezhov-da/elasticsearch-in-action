@@ -1,0 +1,3 @@
+GET {{baseUrl}}/plays
+Authorization: {{auth}}
+content-type: application/json

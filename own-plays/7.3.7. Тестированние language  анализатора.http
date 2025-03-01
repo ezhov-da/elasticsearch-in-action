@@ -1,0 +1,38 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+### 
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+{
+     "settings": {
+        "analysis": {
+            "analyzer": {
+                "index_with_custom_english_analyzer":{
+                    "type":"english",
+                    "stopwords":["a","an","is","and","for"],
+                    "stem_exclusion":["authority","authorization"]
+                }
+            }
+        }
+     }
+}
+
+
+### 
+# ["1234","5678","9000","0000"]
+GET {{baseUrl}}/111/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "index_with_custom_english_analyzer",
+    "text": ["A No one can challenge my authority without my authorization"]
+}

@@ -1,0 +1,37 @@
+# Фильтр работает точно так же, как пункт must, но не влияет на счет
+
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": { 
+        "bool": { 
+            "must": [
+                {
+                    "match": {
+                        "author": "Joshua"
+                    }
+                }
+            ],
+            "must_not": [
+                {
+                    "range": {
+                        "amazon_rating": {
+                            "lt": 4.7
+                        }
+                    }
+                }
+            ],
+            "should": [{
+                "match": {
+                    "tags": "Software" 
+                }
+            }],
+            "filter":[
+                {"range":{"release_date":{"gte": "2015-01-01"}}},
+                {"term": {"edition": 3}}
+            ]
+        } 
+    } 
+}

@@ -1,0 +1,24 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Avatar",
+    "rating":9.3,
+    "rating_amazon":4.5,
+    "rating_rotten_tomatoes":80,
+    "rating_metacritic":90
+}
+
+### 
+GET {{baseUrl}}/111/_doc/1?_source_includes=rating*&_source_excludes=rating_amazon
+Authorization: {{auth}}
+content-type: application/json

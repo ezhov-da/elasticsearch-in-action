@@ -1,0 +1,35 @@
+###
+# Как следует из названия, запрос match all (match_all) 
+# извлекает все документы в индексе. Поскольку этот запрос 
+# должен вернуть все доступные документы, он является 
+# идеальным партнером для соблюдения 100% отзыва. 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match_all": {}
+    }
+}
+
+###
+# Буст очков
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match_all": {
+            "boost": 2
+        }
+    }
+}
+
+
+###
+# Короткий вызов
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json

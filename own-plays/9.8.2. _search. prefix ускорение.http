@@ -1,0 +1,61 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings": {
+       "properties": {
+            "title":{
+                "type": "text",
+                "index_prefixes":{}
+            }
+       } 
+    }
+}
+
+###
+GET {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Avatar"
+}
+
+###
+GET {{baseUrl}}/111/_search
+Authorization: {{auth}}
+content-type: application/json
+
+###
+GET {{baseUrl}}/111/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "prefix": {
+            "title": {
+                "value": "av"
+            }
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    }
+}

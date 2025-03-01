@@ -1,0 +1,12 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+
+### 
+DELETE {{baseUrl}}/111/_alias/cars_alias
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------

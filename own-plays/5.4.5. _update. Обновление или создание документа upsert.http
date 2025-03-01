@@ -1,0 +1,47 @@
+# Иногда, когда мы пытаемся обновить 
+# несуществующий документ, мы хотим, чтобы 
+# Elasticsearch индексировал его как новый документ, 
+# а не выдавал ошибку. 
+# В этом и заключается суть операции upsert.
+
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Avatar",
+}
+
+###
+# Запрос состоит из двух частей: скрипта и блока upsert. 
+# В части скрипта мы обновляем поле в существующем документе, 
+# а блок upsert содержит информацию о новом документе.
+
+# Если запустить запрос ещё раз, то поле gross_earnings
+# обновиться до '357.1m', так как документ уже будет создан.
+POST {{baseUrl}}/111/_update/5
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "script": {
+        "source": "ctx._source.gross_earnings = '357.1m'"
+    },
+    "upsert": {
+        "title":"Top Gun",
+        "gross_earnings":"357.5m"
+    }
+}
+
+### 
+GET {{baseUrl}}/111/_doc/5
+Authorization: {{auth}}
+content-type: application/json

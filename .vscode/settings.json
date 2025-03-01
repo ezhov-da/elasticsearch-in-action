@@ -1,0 +1,8 @@
+{
+    "rest-client.environmentVariables": {
+        "local": {
+            "baseUrl": "https://localhost:9200",
+            "auth": "Basic elastic -G*hgHBaqwdsNexKO4p*"
+        }
+    }
+}

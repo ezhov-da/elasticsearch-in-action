@@ -1,0 +1,113 @@
+###
+# Как следует из названия, запрос multi-match (multi_match) 
+# выполняет поиск по нескольким полям. Например, для 
+# поиска слова «Java» по полям title, synopsis и tags 
+# ответом будет запрос multi_match. 
+
+# Тип по умолчанию для запроса multi_match — best_fields. 
+# Алгоритм best_fields ранжирует поле с наибольшим количеством 
+# слов выше, чем поле с наименьшим количеством. 
+
+# cross_fields, most_fields, phrase, and phrase_prefix.
+
+# Он переписан с использованием запроса dis-junction 
+# max (dis_max) в фоновом режиме.
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "multi_match": {
+            "query": "Design Patterns",
+            "type": "best_fields",
+            "fields":[
+                "title",
+                "synopsis",
+                "tags"
+            ]
+
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}
+
+###
+# Запрос dis_max классифицируется как составной запрос: 
+# запрос, который оборачивает другие запросы.
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "dis_max": {
+            "queries": [
+                {"match": {"title": "Design Patterns"}},
+                {"match": {"synopsis": "Design Patterns"}}
+            ]
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}
+
+###
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "multi_match": {
+            "query": "Design Patterns",
+            "type": "best_fields",
+            "fields":[
+                "title",
+                "tags"
+            ],
+            "tie_breaker": 0.9
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}
+
+###
+# Буст полей
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "multi_match": {
+            "query": "Design Patterns",
+            "type": "best_fields",
+            "fields":[
+                "title^2",
+                "tags"
+            ],
+            "tie_breaker": 0.9
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}

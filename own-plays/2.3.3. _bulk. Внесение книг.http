@@ -1,0 +1,7 @@
+## ID для записи не указываем, по-этому Elasticsearch сгенерирует сам
+
+POST {{baseUrl}}/covid/_bulk
+Authorization: {{auth}}
+content-type: application/json
+
+<./../datasets/covid-26march2021-data.txt

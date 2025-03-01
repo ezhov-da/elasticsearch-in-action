@@ -1,0 +1,47 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "titles": ["Avatar"]
+}
+
+###
+POST {{baseUrl}}/111/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "titles": ["Avatar"]
+}
+
+###
+POST {{baseUrl}}/111/_doc/3
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "titles": ["Titanic"]
+}
+
+###
+POST {{baseUrl}}/111/_delete_by_query
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query":{ "match_all":{ } }
+}
+
+### 
+GET {{baseUrl}}/111/_search
+Authorization: {{auth}}
+content-type: application/json

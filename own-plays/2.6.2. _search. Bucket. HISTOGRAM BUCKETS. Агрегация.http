@@ -1,0 +1,22 @@
+# HISTOGRAM BUCKETS
+# Агрегация гистограммы сегментирования создает список сегментов, 
+# представляющих числовое значение, путем обхода всех документов. 
+# Например, если мы хотим классифицировать страны по количеству 
+# критических пациентов в сегментах по 2500, 
+# мы можем написать следующий запрос.
+
+POST {{baseUrl}}/covid/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "size": 0,
+    "aggs": { 
+        "critical_patients_as_histogram": { 
+            "histogram": {
+                "field": "critical",
+                "interval" : 2500
+            }
+        }
+    } 
+}

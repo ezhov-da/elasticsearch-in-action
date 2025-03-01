@@ -1,0 +1,25 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "titles": ["Avatar"]
+}
+
+###
+DELETE {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/111/_search
+Authorization: {{auth}}
+content-type: application/json

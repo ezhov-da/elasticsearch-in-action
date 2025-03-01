@@ -1,0 +1,35 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "index":{
+        "refresh_interval":"60s"
+    }
+}
+
+###
+POST {{baseUrl}}/123/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "index":{
+        "refresh_interval":"60s"
+    }
+}
+
+### 
+GET {{baseUrl}}/123/_mget
+Authorization: {{auth}}
+content-type: application/json
+
+{ "ids" : ["1", "12", "19", "34"] }

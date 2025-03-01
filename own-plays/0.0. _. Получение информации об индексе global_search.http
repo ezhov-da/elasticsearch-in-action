@@ -1,0 +1,2 @@
+GET {{baseUrl}}/global_search
+Authorization: Basic ZWxhc3RpYzotRypoZ0hCYXF3ZHNOZXhLTzRwKg==

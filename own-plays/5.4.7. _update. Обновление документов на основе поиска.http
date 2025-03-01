@@ -1,0 +1,75 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "titles": ["Avatar"]
+}
+
+###
+POST {{baseUrl}}/111/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "titles": ["Avatar 2"]
+}
+
+###
+POST {{baseUrl}}/111/_doc/3
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "titles": ["Avatar 3"]
+}
+
+###
+# Обновление на основе условия
+POST {{baseUrl}}/111/_update_by_query
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "titles": {
+                "query": "Avatar 2",
+                "operator": "AND"
+            }
+        }
+    },
+    "script": { 
+        "source": "ctx._source.titles.add('Avatar 5'); ctx._source.titles.remove(ctx._source.titles.indexOf('Avatar 2'));", 
+        "lang": "painless" 
+    } 
+}
+
+### 
+GET {{baseUrl}}/111/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/111/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "titles": {
+                "query": "Avatar 2",
+                "operator": "AND"
+            }
+        }
+    }
+}

@@ -1,0 +1,16 @@
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+Content-type: application/json
+
+{
+    "_source": false,
+    "query": {
+        "ids": {
+            "values": [
+                1,
+                2,
+                3
+            ]
+        }
+    }
+}

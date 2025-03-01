@@ -1,0 +1,33 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+### 
+POST {{baseUrl}}/111/_doc
+Authorization: {{auth}}
+content-type: application/json
+
+{
+     "test": "My phrase"
+}
+
+
+### 
+GET {{baseUrl}}/111/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "test": {
+                "query": "M phrase",
+                "analyzer": "simple"
+            }
+        }
+    }
+}

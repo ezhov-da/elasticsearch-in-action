@@ -1,0 +1,73 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "title": { 
+                "type": "text",
+                "fields": {
+                    "sayt": {
+                        "type": "search_as_you_type"
+                    }
+                }
+            }
+        }
+    }
+}
+
+### 
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Elasticsearch in Action"
+}
+
+### 
+PUT {{baseUrl}}/123/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+     "title":"Elasticsearch for Java Developers"
+}
+
+### 
+PUT {{baseUrl}}/123/_doc/3
+Authorization: {{auth}}
+content-type: application/json
+
+{
+     "title":"Elastic Stack in Action"
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "multi_match": {
+           "query": "in",
+           "type": "bool_prefix",
+           "fields": ["title","title._2gram","title._3gram"]
+        }
+    }
+}

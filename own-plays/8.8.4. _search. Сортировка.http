@@ -1,0 +1,72 @@
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    },
+    "sort": [
+        { "amazon_rating" :{ "order": "desc" } }
+    ]
+}
+
+### 
+# Сортировка от меньшего к большему по очкам
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    },
+    "sort": [
+        { "_score" :{ "order": "asc" } }
+    ]
+}
+
+### 
+# Если мы не сортируем по _score, то оно не рассчитывается.
+# Если оно нам всё таки нужно, необходимо добавить 
+# `"track_scores":true`
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "track_scores":true,
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    },
+    "sort": [
+        { "amazon_rating" :{ "order": "desc" } }
+    ]
+}

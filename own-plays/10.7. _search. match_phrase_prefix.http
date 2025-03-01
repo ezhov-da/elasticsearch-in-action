@@ -1,0 +1,33 @@
+###
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match_phrase_prefix": {
+            "tags": {
+                "query": "concepts and found"
+            }
+        }
+    },
+    "highlight": { "fields": { "tags": {} } }
+}
+
+###
+
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match_phrase_prefix": {
+            "tags": {
+                "query": "concepts found",
+                "slop": 1
+            }
+        }
+    },
+    "highlight": { "fields": { "synopsis": {} } }
+}

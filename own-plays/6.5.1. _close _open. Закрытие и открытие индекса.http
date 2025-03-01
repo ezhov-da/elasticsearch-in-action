@@ -1,0 +1,47 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+
+### 
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+POST {{baseUrl}}/111/_close
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+
+POST {{baseUrl}}/111/_doc
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title": "Test"
+}
+
+
+# Закрытие нескольких индексов
+# `POST cars1,*mov*,students*/_close`
+
+# Закрытие всех индексов
+# `POST */_close`
+
+
+### 
+# Открытие
+POST {{baseUrl}}/111/_open
+Authorization: {{auth}}
+content-type: application/json

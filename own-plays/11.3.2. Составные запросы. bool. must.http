@@ -1,0 +1,37 @@
+###
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": {
+                        "product": "TV"
+                    }
+                },
+                {
+                    "range": {
+                        "price": {
+                            "gte": 700,
+                            "lte": 800
+                        }
+                    }
+                },
+                {
+                    "term": {
+                        "resolution": "4k"
+                    }
+                }
+            ]
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}

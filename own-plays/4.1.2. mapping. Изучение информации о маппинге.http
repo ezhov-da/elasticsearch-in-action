@@ -1,0 +1,22 @@
+# Добавляем фильм, который имеет не формат даты
+PUT {{baseUrl}}/movie/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Godfather",
+    "rating":4.9,
+    "release_year":"1972/08/01"
+}
+
+### 
+# Получение информации о маппинге
+GET {{baseUrl}}/movie/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+# Получение информации о маппинге
+GET {{baseUrl}}/global_search/_mapping
+Authorization: {{auth}}
+content-type: application/json

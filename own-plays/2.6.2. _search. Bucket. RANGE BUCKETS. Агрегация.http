@@ -1,0 +1,33 @@
+# RANGE BUCKETS
+# Агрегация диапазона сегментации определяет набор сегментов 
+# на основе предопределенных диапазонов. Например, предположим, 
+# что мы хотим разделить количество жертв COVID по странам 
+# (жертвы до 60 000, 60 000–70 000, 70 000–80 000 
+# и 80 000–120 000).
+
+POST {{baseUrl}}/covid/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "size": 0,
+    "aggs": { 
+        "range_countries": { 
+            "range": {
+                "field": "deaths",
+                "ranges" : [
+                    {"to" : 60000},
+                    {"from": 60000,"to" : 70000},
+                    {"from": 70000,"to" : 80000},
+                    {"from": 80000,"to" : 120000}
+                ]
+            }
+        }
+    } 
+}
+
+###
+
+POST {{baseUrl}}/covid/_search
+Authorization: {{auth}}
+content-type: application/json

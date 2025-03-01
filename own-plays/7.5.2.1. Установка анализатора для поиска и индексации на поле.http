@@ -1,0 +1,43 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+### 
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings": { 
+        "properties": { 
+            "name":{ 
+                "type": "text",
+                "analyzer": "stop",
+                "search_analyzer": "simple"
+            }
+        } 
+    }
+}
+
+
+### 
+GET {{baseUrl}}/111/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text": "<h1>Where is my cheese?</h1>"
+}
+
+### 
+GET {{baseUrl}}/111/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text": "10x12"
+}

@@ -1,0 +1,4 @@
+###
+GET {{baseUrl}}/_all
+Authorization: {{auth}}
+content-type: application/json

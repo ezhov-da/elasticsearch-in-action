@@ -1,0 +1,148 @@
+###
+# По сути - это запрос KQL
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "query_string": {
+            "query": "author:Bert AND edition:2 AND release_date>=2000-01-01"
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}
+
+###
+# Поиск в конкретных полях
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "query_string": {
+            "query": "Patterns",
+            "fields": ["title","synopsis","tags"]
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}
+
+###
+# По умолчанию искать в default_field
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "query_string": {
+            "query": "Patterns",
+            "default_field": "title"
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}
+
+###
+# default_operator
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "query_string": {
+            "query": "Design Patterns",
+            "default_field": "title",
+            "default_operator": "AND"
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}
+
+###
+# По фразам
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "query_string": {
+            "query": "\"making the code better\"",
+            "default_field": "synopsis"
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}
+
+###
+# По фразам
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "query_string": {
+            "query": "\"making code better\"",
+            "default_field": "synopsis",
+            "phrase_slop": 1
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}
+
+###
+# С опечатками
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "query_string": {
+            "query": "Pattenrs~",
+            "default_field": "synopsis",
+            "phrase_slop": 1
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}

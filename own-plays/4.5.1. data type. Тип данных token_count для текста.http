@@ -1,0 +1,69 @@
+# Специализированная форма текстового типа данных, 
+# token_count, определяет поле, которое фиксирует 
+# количество токенов в этом поле.
+
+PUT {{baseUrl}}/tech_books
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "title": {
+                "type": "token_count",
+                "analyzer": "standard"
+            }
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/tech_books/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+"title":"Elasticsearch in Action"
+}
+
+###
+
+PUT {{baseUrl}}/tech_books/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+"title":"Elastic Stack in Action"
+}
+
+###
+
+PUT {{baseUrl}}/tech_books/_doc/3
+Authorization: {{auth}}
+content-type: application/json
+
+{
+"title":"Elasticsearch for Java Developers"
+}
+
+### 
+GET {{baseUrl}}/tech_books/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+# Возвращает как тест
+GET {{baseUrl}}/tech_books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{ "query": { "range": { "title": { "gt": 3, "lte": 5 } } } }
+
+
+# Удаление индексов --------------------------
+
+### 
+DELETE {{baseUrl}}/test_index
+Authorization: {{auth}}
+content-type: application/json

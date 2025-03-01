@@ -1,0 +1,24 @@
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "wildcard": {
+            "title": {
+                "value": "*ava"
+            }
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    }
+}

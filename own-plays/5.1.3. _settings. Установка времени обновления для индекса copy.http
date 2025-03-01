@@ -1,0 +1,55 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+# Чтобы полностью отключить операцию обновления, 
+# установите значение -1.
+# Если операция обновления отключена, буфер в памяти 
+# будет накапливать входящие документы.
+
+# Что важно. По сути при отключении обновления индекса, 
+#все документы хранятся в памяти и не доступны для поиска.
+
+# Примером использования этого сценария может служить ситуация, 
+# когда мы переносим множество документов из базы данных 
+# в Elasticsearch и не хотим, чтобы данные были доступны 
+# для поиска до тех пор, пока не будет выполнена миграция.
+
+PUT {{baseUrl}}/123/_settings
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "index":{
+        "refresh_interval":"60s"
+    }
+}
+
+### 
+GET {{baseUrl}}/123/_settings
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+POST {{baseUrl}}/123/_doc
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Elasticsearch in Action"
+}
+
+
+### 
+POST {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json

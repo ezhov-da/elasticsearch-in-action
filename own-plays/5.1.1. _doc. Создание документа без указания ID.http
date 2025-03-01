@@ -1,0 +1,25 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+### 
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Elasticsearch in Action"
+}
+
+
+### 
+PUT {{baseUrl}}/123/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Elasticsearch in Action"
+}

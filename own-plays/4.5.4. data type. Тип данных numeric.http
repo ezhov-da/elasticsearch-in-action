@@ -1,0 +1,60 @@
+# Integer types
+# - byte - Signed 8-bit integer
+# - short - Signed 16-bit integer
+# - integer - Signed 32-bit integer
+# - long - Signed 64-bit integer
+# - unsigned_long - 64-bit unsigned integer
+# 
+# Floating-point types
+# - float - 32
+# - double - 64
+# - half_float - 16
+# - scaled_float - Floating-point nmber backed by long
+# 
+
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "age": { "type": "short"}
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "age":"100"
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "term": {
+            "age" : 100
+        }
+    }
+}
+
+# Удаление индексов --------------------------
+
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json

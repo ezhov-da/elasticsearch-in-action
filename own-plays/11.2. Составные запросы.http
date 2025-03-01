@@ -1,0 +1,17 @@
+###
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "bool|constant_score|boosting|dis_max|function_score": {
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}

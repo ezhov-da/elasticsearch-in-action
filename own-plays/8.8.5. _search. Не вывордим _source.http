@@ -1,0 +1,26 @@
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": false,
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    },
+    "sort": [
+        { "amazon_rating" :{ "order": "desc" } }
+    ]
+}

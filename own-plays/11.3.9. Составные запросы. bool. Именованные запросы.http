@@ -1,0 +1,62 @@
+###
+# Named queries for "All clauses combined" query
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+  "_source": ["product", "brand"], 
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "brand": {
+              "query": "LG",
+              "_name": "must_match_brand_query"
+            }
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "colour.keyword": {
+              "query":"black",
+              "_name":"must_not_colour_query"
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "term": {
+            "type.keyword": {
+              "value": "Frost Free Fridge Freezer",
+              "_name":"should_term_type_query"
+            }
+          }
+        },
+        {
+          "match": {
+            "energy_rating": {
+              "query": "A++",
+              "_name":"should_match_energy_rating_query"
+            }
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000,
+              "_name":"filter_range_price_query"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

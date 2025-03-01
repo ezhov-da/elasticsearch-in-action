@@ -1,0 +1,108 @@
+
+# Ограничения для вложенных объектов:
+# !!! Внутренние объекты упрощаются и не хранятся как 
+# отдельные документы.
+
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "to": { "type": "keyword"},
+            "subject": { "type": "text"},
+            "attachments": { 
+               "properties": {
+                    "filename":{ "type":"text" },
+                    "filetype":{ "type":"text" }
+               } 
+            }
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "to":"johndoe@johndoe.com",
+    "subject":"Testing Object Type",
+    "attachments":{
+        "filename":"file1.txt",
+        "filetype":"confidential"
+    }
+}
+
+### 
+# Пример упрощения внутренних объектов.
+PUT {{baseUrl}}/123/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "to":"johndoe@johndoe.com",
+    "subject":"Testing Object Type",
+    "attachments":[
+        {
+            "filename":"file2.txt",
+            "filetype":"confidential"
+        },
+        {
+            "filename":"file3.txt",
+            "filetype":"private"
+        }
+    ]
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+           "attachments.filename": "file2.txt"
+        }
+    }
+}
+
+### 
+# !!! Будет найден наш документ, но это неправильно, так как такого соответствия нет.
+# Это происходит, так как объекты схлопываются и превращаются в:
+# "attachments.filename" :["file1.txt","file2.txt","file3.txt"]
+# "attachments.filetype":["private","confidential"]
+# Из такого хранения невозможно понять что к чему относится, так 
+# как по сути это всё на всё.
+# Данную проблему решает nested тип
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "bool": {
+            "must": [
+                {"match": { "attachments.filename": "file2.txt"}},
+                {"match": { "attachments.filetype": "private" }}
+            ]
+        }
+    }
+}

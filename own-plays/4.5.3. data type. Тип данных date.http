@@ -1,0 +1,59 @@
+# Elasticsearch предоставляет тип данных даты для 
+# поддержки индексации и поиска операций на основе даты. 
+# Поля даты считаются структурированными данными, 
+# поэтому мы можем использовать их в сортировке, 
+# фильтрации и агрегации.
+# Поддерживаемый формат: `yyyy-MM-dd` или `yyyy-MM-ddTHH:mm:ss`.
+
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "departure_date_time": { "type": "date"},
+            "string_date":{ "type": "date", "format": "dd-MM-yyyy" },
+            "millis_date":{ "type": "date", "format": "epoch_millis" },
+            "seconds_date":{ "type": "date", "format": "epoch_second"}
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "departure_date_time":"2024-12-12T21:00:00"
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "range": {
+            "departure_date_time" : {
+                "gte": "2021-08-06T05:00:00",
+                "lte": "2025-08-06T05:30:00"
+            }
+        }
+    }
+}
+
+# Удаление индексов --------------------------
+
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json

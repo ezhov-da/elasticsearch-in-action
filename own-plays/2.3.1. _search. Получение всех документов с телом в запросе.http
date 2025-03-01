@@ -1,0 +1,11 @@
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+Content-type: application/json
+
+{
+    "query": {
+        "match_all": {
+            "boost": 2
+        }
+    }
+}

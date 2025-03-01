@@ -1,0 +1,28 @@
+### 
+
+PUT {{baseUrl}}/departments
+Authorization: {{auth}}
+content-type: application/json
+
+
+### 
+
+# Добавляет настройки в существующие
+
+PUT {{baseUrl}}/departments/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "properties": {
+        "name": {
+            "type": "text"
+        }
+    }
+}
+
+### 
+
+GET {{baseUrl}}/departments/_mapping
+Authorization: {{auth}}
+content-type: application/json

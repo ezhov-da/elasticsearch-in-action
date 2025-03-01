@@ -1,0 +1,74 @@
+###
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "range": {
+                        "price": {
+                            "gte": 500,
+                            "lte": 1000
+                        }
+                    }
+                },
+                {
+                    "match_phrase_prefix": {
+                        "overview": "4K Ultra HD"
+                    }
+                }
+            
+            ]
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "overview": {},
+            "price": {}
+        } 
+    }
+}
+
+###
+
+# Однако иногда нам может потребоваться, чтобы хотя бы 
+# один из критериев should был сопоставлен перед отправкой 
+# результатов клиенту. Мы хотим, чтобы оценка была повышена 
+# на основе этих совпадений с запросом should. Мы можем 
+# сделать это с помощью атрибута minimum_should_match. 
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "range": {
+                        "price": {
+                            "gte": 500,
+                            "lte": 1000
+                        }
+                    }
+                },
+                {
+                    "match_phrase_prefix": {
+                        "overview": "4K Ultra HD"
+                    }
+                }
+            
+            ],
+            "minimum_should_match": 1
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "overview": {},
+            "price": {}
+        } 
+    }
+}

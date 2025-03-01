@@ -1,0 +1,29 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+# В этом клиенте не работает
+POST {{baseUrl}}/_bulk
+Authorization: {{auth}}
+content-type: application/json
+
+{"index":{"_index":"movies","_id":"100"}}
+{"title": "Mission Impossible","release_date": "1996-07-05"}
+
+###
+# В этом клиенте не работает
+POST {{baseUrl}}/movies/_bulk
+Authorization: {{auth}}
+content-type: application/json
+
+{"index":{"_id":"100"}}
+{"title": "Mission Impossible","release_date": "1996-07-05"}
+
+### 
+GET {{baseUrl}}/111,222/_search
+Authorization: {{auth}}
+content-type: application/json

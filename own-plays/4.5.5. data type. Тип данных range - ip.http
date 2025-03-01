@@ -1,0 +1,50 @@
+# Поддержка IPv4 и IPv6
+
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "router_ip": { "type": "ip"}
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "router_ip":"35.177.57.111"
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+# Вот здесь происходит вся магия при поиске.
+# Обрати внимание на '/'
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "term": {
+           "router_ip": { "value": "35.177.0.0/16" }
+        }
+    }
+}
+
+# Удаление индексов --------------------------
+
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json

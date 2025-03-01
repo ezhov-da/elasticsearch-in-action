@@ -1,0 +1,85 @@
+# Связь родитель - потомок.
+# Важно помнить:
+# 1. Родители и связанные с ними дочерние 
+# элементы индексируются в одном и том же сегменте, 
+# чтобы избежать накладных расходов 
+# на поиск в нескольких сегментах.
+# 2. А поскольку документы сосуществуют, 
+# нам необходимо использовать обязательный параметр 
+# маршрутизации в URL
+
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+# Два важных момента:
+# 1. Мы объявляем свойство relationship типа join
+# 2. Мы объявляем атрибут relations и даем имена 
+# отношений (в данном случае только одно отношение врач:пациент).
+
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "relationship": { 
+                "type": "join",
+                "relations": { 
+                    "doctor": "patient"
+                }
+            }
+        }
+    }
+}
+
+### 
+# Создание документа доктора
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "name":"Dr. Mary Montgomery",
+    "relationship":{
+        "name":"doctor"
+    }
+}
+
+### 
+# Создание документа пациента
+PUT {{baseUrl}}/123/_doc/2?routing=mary
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "name":"John Doe",
+    "relationship":{
+        "name":"patient",
+        "parent":1
+    }
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "parent_id": {
+           "type": "patient",
+           "id":1
+        }
+    }
+}

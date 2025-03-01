@@ -1,0 +1,47 @@
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "size": 2,
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    }
+
+}
+
+### 
+# Кастомный тег для подсветки
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "size": 2,
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    },
+    "highlight": {
+        "pre_tags": "{{",
+        "post_tags": "}}",
+        "fields": {
+            "title": {}
+        }
+    }
+
+}

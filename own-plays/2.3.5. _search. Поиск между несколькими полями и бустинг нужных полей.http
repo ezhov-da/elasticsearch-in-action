@@ -1,0 +1,14 @@
+# Бустинг полей
+
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": { 
+        "multi_match": { 
+            "query": "Java", 
+            "fields": ["title^3","synopsis"] 
+            } 
+        } 
+}

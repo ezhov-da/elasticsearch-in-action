@@ -1,0 +1,25 @@
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+###
+# Запросы префикса дороги и могут дестабилизировать кластер
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "prefix": {
+            "title.keyword": {
+                "value": "Co"
+            }
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    }
+}

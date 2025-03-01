@@ -1,0 +1,30 @@
+###
+# 
+# | - OR
+# + - AND
+# - - NOT
+# ~ - Fuzzy query
+# * - Prefix query
+# " - Phrase query
+
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "simple_query_string": {
+            "query": "Java + Cay",
+            "fields": [
+                "title",
+                "author"
+            ]
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}

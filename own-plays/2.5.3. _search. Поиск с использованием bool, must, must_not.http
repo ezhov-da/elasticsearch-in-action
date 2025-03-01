@@ -1,0 +1,27 @@
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["title","author","amazon_rating"],
+    "query": { 
+        "bool": { 
+            "must": [
+                {
+                    "match": {
+                        "author": "Joshua"
+                    }
+                }
+            ],
+            "must_not": [
+                {
+                    "range": {
+                        "amazon_rating": {
+                            "lt": 4.7
+                        }
+                    }
+                }
+            ]
+        } 
+    } 
+}

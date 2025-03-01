@@ -1,0 +1,55 @@
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "fields": ["title", "title.keyword"],
+    "_source": false,
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    },
+    "sort": [
+        { "amazon_rating" :{ "order": "desc" } }
+    ]
+}
+
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "fields": ["tit*"],
+    "_source": false,
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    },
+    "sort": [
+        { "amazon_rating" :{ "order": "desc" } }
+    ]
+}
+
+### 
+GET {{baseUrl}}/books
+Authorization: {{auth}}
+content-type: application/json

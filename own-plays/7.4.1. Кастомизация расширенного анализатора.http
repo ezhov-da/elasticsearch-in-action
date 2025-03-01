@@ -1,0 +1,54 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+### 
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+{
+     "settings": {
+        "analysis": {
+            "analyzer": {
+                "greek_letter_custom_analyzer":{
+                    "type":"custom",
+                    "char_filter":["greek_symbol_mapper"],
+                    "tokenizer":"standard",
+                    "filter":["lowercase", "greek_keep_words"]
+                }
+            },
+            "char_filter": {
+                "greek_symbol_mapper":{
+                    "type":"mapping",
+                    "mappings":[
+                        "1 => alpha",
+                        "3 => beta"
+                    ]
+                }
+            },
+            "filter": {
+                "greek_keep_words":{
+                    "type":"keep",
+                    "keep_words":["alpha", "beta", "gamma"]
+                }
+            }
+        }
+     }
+}
+
+
+### 
+# ["alpha", "alpha", "beta", "beta"]
+GET {{baseUrl}}/111/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "greek_letter_custom_analyzer",
+    "text": ["1 alpha test 3 beta world"]
+}

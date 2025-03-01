@@ -1,0 +1,46 @@
+POST {{baseUrl}}/hi_test/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "names": ["One 1", "Two 2"]
+}
+
+###
+
+POST {{baseUrl}}/hi_test/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "names": ["One 1", "Three 3"]
+}
+
+###
+
+GET {{baseUrl}}/hi_test
+Authorization: {{auth}}
+
+###
+
+GET {{baseUrl}}/hi_test/_search
+Authorization: {{auth}}
+
+###
+
+POST {{baseUrl}}/hi_test/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": { 
+        "match": { 
+            "names": "One 1"
+        } 
+    },
+    "highlight": { 
+        "fields": { 
+            "names": {} 
+        } 
+    }
+}

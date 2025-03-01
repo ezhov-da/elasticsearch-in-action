@@ -1,0 +1,84 @@
+# Когда ожидается, что документы будут иметь одинаковое значение
+# , независимо от количества, тип constant_keyword 
+# оказывается полезным. Допустим, Соединенное Королевство # 
+# проводит перепись в 2031 году, и по очевидным 
+# причинам поле страны в документе переписи 
+# каждого гражданина по умолчанию будет «Соединенное Королевство». 
+# Нет необходимости отправлять поле страны для каждого документа, 
+# когда он индексируется в индексе переписи. 
+# Схема сопоставления определяет индекс (перепись) с полем, 
+# называемым country, типа constant_keyword.
+
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "title": {
+                "type": "constant_keyword",
+                "value":"United Kingdom"
+            },
+            "title2": {
+                "type": "keyword"
+            }
+        }
+    }
+}
+
+###
+# Выдаст ошибку, так как требуется только определённое слово
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+"title":"Elasticsearch in Action"
+}
+
+###
+# Не проставляет значение по умолчанию. ТОлько проверяет при входе
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+"title2":"Elasticsearch in Action"
+}
+
+### 
+# Например ответ содержит только title2
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+###
+# Происходит магия.
+# Мы внесли документ без поля title, 
+# но находятся все документы так как проставлено дефолтное значение.
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{ "query": { 
+    "term": { 
+        "title": {
+                "value": "United Kingdom"
+            }
+        } 
+    } 
+}
+
+
+# Удаление индексов --------------------------
+
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json

@@ -1,0 +1,129 @@
+###
+# Запрос соответствия — наиболее распространенный и мощный 
+# запрос для множественных вариантов использования. Это 
+# полнотекстовый поисковый запрос, возвращающий документы, 
+# соответствующие указанным критериям. Запрос соответствия 
+# можно модифицировать, включив в него множество различных 
+# опций. 
+
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "FIELD": "SEARCH TEXT"
+        }
+    }
+}
+
+###
+# The parameter (analyzer, operator, prefix_length, fuzziness, etc.) expects a value to be set.
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "FIELD": {
+                "query": "SEARCH TEXT",
+                "<parameter>":"<MY_PARAM>",
+            }
+        }
+    }
+}
+
+###
+# Если при индексации документа используется стандартный 
+# анализатор (анализатор по умолчанию), то перед выполнением 
+# поиска искомые слова анализируются с использованием 
+# того же стандартного анализатора. 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["title"],
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    }
+}
+
+###
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["title"],
+    "query": {
+        "match": {
+            "title": {
+                "query": "Java Complete Guide"
+            }
+        }
+    },
+    "highlight": { "fields": { "title": {} } }
+}
+
+###
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["title"],
+    "query": {
+        "match": {
+            "title": {
+                "query": "Java Complete Guide",
+                "operator": "AND"
+            }
+        }
+    },
+    "highlight": { "fields": { "title": {} } }
+}
+
+###
+# Атрибут minimum_should_match указывает минимальное 
+# количество слов, которое следует использовать 
+# для сопоставления документов.
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["title"],
+    "query": {
+        "match": {
+            "title": {
+                "query": "Java Complete Guide",
+                "operator": "OR",
+                "minimum_should_match": 2
+            }
+        }
+    },
+    "highlight": { "fields": { "title": {} } }
+}
+
+###
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["title"],
+    "query": {
+        "match": {
+            "title": {
+                "query": "Kava Domplete",
+                "fuzziness": "AUTO"
+            }
+        }
+    },
+    "highlight": { "fields": { "title": {} } }
+}

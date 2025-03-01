@@ -1,0 +1,25 @@
+GET {{baseUrl}}/global_search
+Authorization: {{auth}}
+
+###
+
+GET {{baseUrl}}/global_search/_search
+Authorization: {{auth}}
+
+###
+
+POST {{baseUrl}}/global_search/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["name"]
+    "query": { 
+        "match": { 
+            "data": {
+                "query": "рекламац",
+                "fuzziness": 2
+            }
+        } 
+    }
+}

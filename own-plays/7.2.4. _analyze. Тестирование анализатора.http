@@ -1,0 +1,39 @@
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text": "James Bond 007"
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text": "James Bond 007",
+    "analyzer": "simple"
+}
+
+###
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text": "James Bond 007",
+    "analyzer": "english"
+}
+
+###
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "tokenizer": "path_hierarchy",
+    "filter": ["uppercase"],
+    "text": "/Volumes/FILES/Dev"
+}

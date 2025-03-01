@@ -1,0 +1,27 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+# В этом клиенте не работает
+POST {{baseUrl}}/_bulk
+Authorization: {{auth}}
+content-type: application/json
+
+{"index":{"_index":"books"}}
+{"title": "Elasticsearch in Action"}
+{"create":{"_index":"flights", "_id":"101"}}
+{"title": "London to Bucharest"}
+{"index":{"_index":"pets"}}
+{"name": "Milly","age_months": 18}
+{"delete":{"_index":"movies", "_id":"101"}}
+{ "update" : {"_index":"movies", "_id":"1"} }
+{ "doc" : {"title" : "The Godfather (Original)"}}
+
+### 
+GET {{baseUrl}}/111,222/_search
+Authorization: {{auth}}
+content-type: application/json

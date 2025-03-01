@@ -1,0 +1,43 @@
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "term": {
+            "title":{
+                "value": "java",
+                "boost": 2
+            }
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    }
+}
+
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "terms": {
+            "title": ["java", "kotlin"]
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    }
+}

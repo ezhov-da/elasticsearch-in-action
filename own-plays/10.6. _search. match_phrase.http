@@ -1,0 +1,33 @@
+###
+# Запрос match_phrase — возвращает результаты, 
+# которые точно соответствуют поисковой фразе.
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match_phrase": {
+            "synopsis": "book for every Java programmer"
+        }
+    },
+    "highlight": { "fields": { "synopsis": {} } }
+}
+
+###
+
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match_phrase": {
+            "synopsis": {
+                "query":"book Java programmer",
+                "slop": 2
+            }
+        }
+    },
+    "highlight": { "fields": { "synopsis": {} } }
+}

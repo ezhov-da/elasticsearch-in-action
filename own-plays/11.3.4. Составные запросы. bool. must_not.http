@@ -1,0 +1,30 @@
+###
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "bool": {
+            "must_not": [
+                {
+                    "terms": {
+                        "brand.keyword": [
+                            "Samsung",
+                            "Philips"
+                        ]
+                    }
+                }
+            ],
+            "must": [
+                { "match": { "product": "TV" } }
+            ]
+        }
+    },
+    "highlight": { 
+        "fields": { 
+            "title": {},
+            "tags": {}
+        } 
+    }
+}

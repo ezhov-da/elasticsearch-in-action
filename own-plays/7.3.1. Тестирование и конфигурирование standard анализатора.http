@@ -1,0 +1,64 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+### 
+# standard_with_stopwords - название анализатора
+# type - тип анализатора
+# stopwords - включение фильтра
+# В данном примере мы создали свой анализатор, 
+# который не смотрит ни на одно поле,
+# но который можно проверить используя `_analyze`
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+{
+     "settings": {
+        "analysis": {
+            "analyzer": {
+                "standard_with_stopwords":{
+                    "type":"standard",
+                    "stopwords":"_english_"
+                }
+            }
+        }
+     }
+}
+
+
+### 
+POST {{baseUrl}}/111/_doc
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}
+
+### 
+# Мы не указываем анализатор, поскольку Elasticsearch 
+# использует стандартный анализатор, если мы не укажем его явно.
+# Здесь стоп слова выводятся
+GET {{baseUrl}}/111/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}
+
+### 
+# Здесь стоп слова НЕ выводятся
+GET {{baseUrl}}/111/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "standard_with_stopwords",
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}

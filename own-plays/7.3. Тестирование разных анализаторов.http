@@ -1,0 +1,100 @@
+### 
+# Мы не указываем анализатор, поскольку Elasticsearch 
+#использует стандартный анализатор, если мы не укажем его явно.
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "standard",
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "simple",
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "stop",
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "whitespace",
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "keyword",
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "english",
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "russian",
+    "text": "Горячая ☕ кофе и 🍿 не очень сочетание :(!!"
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "pattern",
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "fingerprint",
+    "text": "Hot cup of ☕ and a 🍿 is a Weird Combo :(!!"
+}

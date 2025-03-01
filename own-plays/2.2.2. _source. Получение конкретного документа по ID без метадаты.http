@@ -1,0 +1,3 @@
+GET {{baseUrl}}/books/_source/4
+Authorization: {{auth}}
+Content-type: application/json

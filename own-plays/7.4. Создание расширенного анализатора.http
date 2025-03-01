@@ -1,0 +1,39 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+### 
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+{
+     "settings": {
+        "analysis": {
+            "analyzer": {
+                "custom_analyzer":{
+                    "type":"custom",
+                    "char_filter":["html_strip"],
+                    "tokenizer":"standard",
+                    "filter":["uppercase"]
+                }
+            }
+        }
+     }
+}
+
+
+### 
+# ["HELLO", "WORLD"]
+GET {{baseUrl}}/111/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "custom_analyzer",
+    "text": ["<H1>HELLO, WoRLD</H1>"]
+}

@@ -1,0 +1,100 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+### 
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "text": {
+                "type": "text",
+                "analyzer": "custom_html_strip_filter_analyzer"
+            }
+        }
+    },
+
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "custom_html_strip_filter_analyzer": {
+                    "tokenizer":"standard",
+                    "char_filter":["replace_filter"]
+                }
+            },
+            "char_filter": {
+                "replace_filter":        {
+                    "type": "pattern_replace",
+                    "pattern": "_",
+                    "replacement": " "
+                }
+            }
+        }
+    }
+}
+
+### 
+POST {{baseUrl}}/111/_doc
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text": "I_am_from_UK"
+}
+
+### 
+GET {{baseUrl}}/111/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+POST {{baseUrl}}/111/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "text": {
+                "query": "I am from",
+                "analyzer": "standard"
+            }
+        }
+    }
+}
+
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text":"I_am_from_UK",
+    "tokenizer": "standard",
+    "filter": ["lowercase"],
+    "char_filter": [
+        {
+            "type": "pattern_replace",
+            "pattern": "_",
+            "replacement": " "
+        }
+    ]
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text":"Это счастье!",
+    "tokenizer": "ngram"
+}

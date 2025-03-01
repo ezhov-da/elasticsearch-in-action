@@ -1,0 +1,23 @@
+### 
+
+GET {{baseUrl}}/index_with_mapping/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+
+### 
+
+# Добавляет настройки в существующие
+
+PUT {{baseUrl}}/index_with_mapping/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "properties": {
+        "body": {
+            "type": "text"
+        }
+    }
+}
+

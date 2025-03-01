@@ -1,0 +1,40 @@
+POST {{baseUrl}}/plays/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "name": "Test2"
+}
+
+###
+
+POST {{baseUrl}}/plays/_search
+Authorization: {{auth}}
+content-type: application/json
+
+###
+
+POST {{baseUrl}}/plays/_doc/3
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "name": "Test2 Hello"
+}
+
+###
+
+POST {{baseUrl}}/plays/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match":{
+            "name": {
+                "query": "Hello Test2",
+                "operator": "AND"
+            }
+        }
+    }
+}

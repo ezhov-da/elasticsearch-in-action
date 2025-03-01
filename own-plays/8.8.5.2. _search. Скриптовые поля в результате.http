@@ -1,0 +1,36 @@
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "fields": ["title", "title.keyword"],
+    "_source": false,
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    },
+    "sort": [
+        { "amazon_rating" :{ "order": "desc" } }
+    ],
+    "script_fields": {
+        "top_rated_movie": {
+            "script": { 
+                "lang": "painless", 
+                "source": "if (doc['amazon_rating'].value > 3) 'true'; else 'false'" 
+            }
+        }
+    }
+
+}

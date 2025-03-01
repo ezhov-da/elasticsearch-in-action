@@ -1,0 +1,42 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+###
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+###
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "aliases": {
+        "test_alias": {}
+    }
+}
+
+# ИЛИ
+
+###
+PUT {{baseUrl}}/111/_alias/test_alias
+Authorization: {{auth}}
+content-type: application/json
+
+###
+GET {{baseUrl}}/test_alias/_alias
+Authorization: {{auth}}
+content-type: application/json
+
+###
+POST {{baseUrl}}/test_alias/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{"title": "Elasticsearch in Action"}

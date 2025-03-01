@@ -1,0 +1,19 @@
+# Запрос диапазона можно применять к 
+# датам, числам и другим атрибутам, что делает 
+# его мощным помощником при поиске данных диапазона.
+
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["title","amazon_rating"],
+    "query": { 
+        "range": { 
+            "amazon_rating": {
+                "gte": 4.5,
+                "lte": 5
+            }
+        } 
+    } 
+}

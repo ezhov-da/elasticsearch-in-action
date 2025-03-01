@@ -1,0 +1,47 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+
+### 
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+
+POST {{baseUrl}}/111/_doc
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title": "Test"
+}
+
+
+### 
+GET {{baseUrl}}/111/_stats
+Authorization: {{auth}}
+content-type: application/json
+
+
+### 
+GET {{baseUrl}}/111/_stats/segments
+Authorization: {{auth}}
+content-type: application/json
+
+# Разные варианты статистики
+
+# GET cars1,cars2,cars3/_stats
+# GET cars*/_stats
+# GET */_stats
+
+
+### 
+GET {{baseUrl}}/111/_segments
+Authorization: {{auth}}
+content-type: application/json

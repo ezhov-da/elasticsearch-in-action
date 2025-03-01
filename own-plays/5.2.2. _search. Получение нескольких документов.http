@@ -1,0 +1,58 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+DELETE {{baseUrl}}/222
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "index":{
+        "refresh_interval":"60s"
+    }
+}
+
+###
+POST {{baseUrl}}/123/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "index":{
+        "refresh_interval":"60s"
+    }
+}
+
+###
+POST {{baseUrl}}/222/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "qqqqqq":{
+        "bbbbbbbbb":"60s"
+    }
+}
+
+### 
+# Получение данных из разных индексов
+GET {{baseUrl}}/123,222/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{ 
+    "query" : {
+        "ids": {
+            "values": [1,2,3,4]
+        }
+    }
+}

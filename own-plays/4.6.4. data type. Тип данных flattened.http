@@ -1,0 +1,62 @@
+# flattened поле содержит информацию в виде одного или 
+# нескольких подполей, и значение каждого подполя индексируется 
+# как keyword. Ни одно из значений не рассматривается 
+# как текстовое поле, и, таким образом, они не подвергаются 
+# процессу анализа.
+
+# Используется, когда много подполей и 
+# понять какое из них что не требуется.
+
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "patient_name": { "type": "text"},
+            "doctor_notes": { "type": "flattened"}
+        }
+    }
+}
+
+### 
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "patient_name":"John Doe",
+    "doctor_notes":{
+        "temperature":103,
+        "symptoms":["chills","fever","headache"],
+        "history":"none",
+        "medication":["Antibiotics","Paracetamol"]
+    }
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+           "doctor_notes.medication": "Paracetamol"
+        }
+    }
+}

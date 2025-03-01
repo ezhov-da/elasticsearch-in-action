@@ -1,0 +1,23 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "index":{
+        "refresh_interval":"60s"
+    }
+}
+
+### 
+# Получение только данных документа
+GET {{baseUrl}}/111/_source/1
+Authorization: {{auth}}
+content-type: application/json

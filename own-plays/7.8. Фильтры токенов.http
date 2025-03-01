@@ -1,0 +1,58 @@
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text":"Это-счастье!",
+    "tokenizer" : "standard",
+    "filter" : ["uppercase","reverse"]
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text":"На машинах ездят",
+    "tokenizer" : "standard",
+    "filter" : [
+        {
+            "type":       "stemmer",
+            "language":   "russian"
+        }
+    ]
+}
+
+### 
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text":"На машинах ездят",
+    "tokenizer" : "standard",
+    "filter": ["shingle"]
+}
+
+### 
+# Порядок фильтров важен!
+GET {{baseUrl}}/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "text":"На машинах ездят",
+    "tokenizer" : "standard",
+    "filter": [
+        {
+            "type":       "stemmer",
+            "language":   "russian"
+        },
+        { 
+            "type":"synonym", 
+            "synonyms":[ "машина => автомобиль"] 
+        }
+    ]
+}

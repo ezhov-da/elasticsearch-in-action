@@ -1,0 +1,60 @@
+# Тип данных keyword оставляет поля нетронутыми. 
+# Поле немаркируется и не анализируется. 
+# Преимущество полей ключевых слов в том, 
+# что их можно использовать в агрегациях данных, 
+# запросах диапазонов, а также в операциях фильтрации 
+# и сортировки данных.
+
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "title": {
+                "type": "keyword"
+            }
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+"title":"Elasticsearch in Action"
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{ "query": { 
+    "match": { 
+        "title": "Elasticsearch in Action" 
+        } 
+    } 
+}
+
+
+# Удаление индексов --------------------------
+
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json

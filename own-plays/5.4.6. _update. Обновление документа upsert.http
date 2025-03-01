@@ -1,0 +1,33 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title":"Avatar"
+}
+
+###
+# Создаём документ, если он отсутствует
+POST {{baseUrl}}/111/_update/5
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "doc": {
+        "runtime_in_minutes":110
+    },
+    "doc_as_upsert":true
+}
+
+### 
+GET {{baseUrl}}/111/_search
+Authorization: {{auth}}
+content-type: application/json

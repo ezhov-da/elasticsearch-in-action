@@ -1,0 +1,51 @@
+PUT {{baseUrl}}/test_index
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "age": {
+                "type": "long"
+            }
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/test_index/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "age": "2"
+}
+
+###
+# Здесь будет ошибка, так как не число
+PUT {{baseUrl}}/test_index/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "age": "sdvsdsdv"
+}
+
+### 
+GET {{baseUrl}}/test_index/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+# Возвращает как тест
+GET {{baseUrl}}/test_index/_search
+Authorization: {{auth}}
+content-type: application/json
+
+# Удаление индексов --------------------------
+
+### 
+DELETE {{baseUrl}}/test_index
+Authorization: {{auth}}
+content-type: application/json

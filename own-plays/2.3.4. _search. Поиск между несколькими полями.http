@@ -1,0 +1,14 @@
+# [[elasticsearch-Elasticsearch in Action. Manning.pdf#page=75&selection=11,0,11,32|elasticsearch-Elasticsearch in Action. Manning, страница 75]]
+
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{ "query": { 
+    "multi_match": { 
+        "query": "Java", 
+        "fields": ["title","synopsis"] 
+        } 
+    } 
+}
+

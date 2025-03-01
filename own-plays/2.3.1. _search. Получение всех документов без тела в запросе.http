@@ -1,0 +1,3 @@
+GET {{baseUrl}}
+Authorization: {{auth}}
+Content-type: application/json

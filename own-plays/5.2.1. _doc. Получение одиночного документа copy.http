@@ -1,0 +1,39 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+###
+POST {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "index":{
+        "refresh_interval":"60s"
+    }
+}
+
+### 
+GET {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+# Документ отсутствует
+GET {{baseUrl}}/123/_doc/999
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+# Проверить документ на отсутствие
+HEAD {{baseUrl}}/123/_doc/999
+Authorization: {{auth}}
+content-type: application/json

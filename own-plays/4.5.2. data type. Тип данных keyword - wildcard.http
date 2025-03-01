@@ -1,0 +1,83 @@
+# Тип данных wildcard — это еще один специальный 
+# тип данных, принадлежащий к семейству ключевых слов. 
+# Он поддерживает поиск данных с использованием 
+# wildcard и регулярных выражений. Мы определяем 
+# поле как тип wildcard, объявляя его как 
+# "type": "wildcard" в определении отображения.
+
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "title": {
+                "type": "text",
+                "fields": {
+                    "wc": {
+                        "type": "wildcard"
+                    },
+                    "kw": {
+                        "type": "keyword"
+                    }
+                } 
+            }
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+"title":"Elasticsearch in Action"
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+# За счёт того, что мы добавили wildcard,
+# теперь можем искать по подстановке
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{ "query": { 
+    "wildcard": { 
+        "title.wc": "*last*" 
+        } 
+    } 
+}
+
+### 
+# Не находит
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{ "query": { 
+    "wildcard": { 
+        "title.wc": "^Elast.*" 
+        } 
+    } 
+}
+
+
+# Удаление индексов --------------------------
+
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json

@@ -1,0 +1,82 @@
+# Специализированная форма текстового типа данных, 
+# token_count, определяет поле, которое фиксирует 
+# количество токенов в этом поле.
+
+PUT {{baseUrl}}/tech_books2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "title": {
+                "type": "text",
+                "fields":{
+                    "word_count": {
+                        "type": "token_count",
+                        "analyzer": "standard"
+                    }
+                }
+            }
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/tech_books2/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+"title":"Elasticsearch in Action"
+}
+
+###
+
+PUT {{baseUrl}}/tech_books2/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+"title":"Elastic Stack in Action"
+}
+
+###
+
+PUT {{baseUrl}}/tech_books2/_doc/3
+Authorization: {{auth}}
+content-type: application/json
+
+{
+"title":"Elasticsearch for Java Developers"
+}
+
+### 
+GET {{baseUrl}}/tech_books2/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+# Возвращает как тест
+GET {{baseUrl}}/tech_books2/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{ 
+    "query": { 
+        "term": { 
+            "title.word_count": { 
+                "value": 4
+            } 
+        } 
+    } 
+}
+
+
+# Удаление индексов --------------------------
+
+### 
+DELETE {{baseUrl}}/tech_books2
+Authorization: {{auth}}
+content-type: application/json

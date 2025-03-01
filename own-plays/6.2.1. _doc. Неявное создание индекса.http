@@ -1,0 +1,36 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+###
+# Не всегда целесообразно отключение автоматического создания.
+# так как ES создаёт некоторые индексы самостоятельно
+PUT {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{"title": "Elasticsearch in Action"}
+
+
+###
+PUT {{baseUrl}}/_cluster/settings
+Authorization: {{auth}}
+content-type: application/json
+
+{"persistent": {"action.auto_create_index":false}}
+
+###
+PUT {{baseUrl}}/_cluster/settings
+Authorization: {{auth}}
+content-type: application/json
+
+{"persistent": {"action.auto_create_index":true}}
+
+###
+GET {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json

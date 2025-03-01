@@ -1,0 +1,100 @@
+# Гео точки поддерживают разные форматы:
+# Array - "address":[0.12,51.5]
+# String - "address":"51.5,0.12"
+# Geohash - u10j4
+# Point - POINT(51.5,-0.12)
+
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+PUT {{baseUrl}}/123
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "name": { "type": "text"},
+            "address": { "type": "geo_point"}
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/123/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "name":"Sticky Fingers",
+    "address":{
+        "lon":"0.1278",
+        "lat":"51.5074"
+    }
+}
+
+###
+
+PUT {{baseUrl}}/123/_doc/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "name":"Sticky 1",
+    "address": [0.1278, 51.5074]
+}
+
+###
+
+PUT {{baseUrl}}/123/_doc/3
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "name":"Sticky 3",
+    "address": "0.1278, 51.5074"
+}
+
+###
+
+PUT {{baseUrl}}/123/_doc/4
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "name":"Sticky 4",
+    "address": "u10j4"
+}
+
+### 
+GET {{baseUrl}}/123/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/123/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "geo_bounding_box": {
+           "address": { 
+                "top_left":{
+                    "lon":"0",
+                    "lat":"52"
+                },
+                "bottom_right": {
+                    "lon":"1",
+                    "lat":"50"
+                }
+            }
+        }
+    }
+}

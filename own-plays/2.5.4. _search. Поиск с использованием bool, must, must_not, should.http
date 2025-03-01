@@ -1,0 +1,80 @@
+# Предложение should ведет себя как оператор OR.
+# То есть, если искомые слова соответствуют запросу should, 
+# то оценка релевантности повышается. Если слова не соответствуют, 
+# то запрос не терпит неудачу; предложение игнорируется. 
+# Предложение should больше направлено на повышение оценки релевантности, 
+# чем на влияние на результаты.
+
+# Для запрос ниже оценка 5.517532
+
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["title","author","amazon_rating", "tags"],
+    "query": { 
+        "bool": { 
+            "must": [
+                {
+                    "match": {
+                        "author": "Joshua"
+                    }
+                }
+            ],
+            "must_not": [
+                {
+                    "range": {
+                        "amazon_rating": {
+                            "lt": 4.7
+                        }
+                    }
+                }
+            ],
+            "should": [{
+                "match": {
+                    "tags": "Software" 
+                }
+            }]
+        } 
+    } 
+}
+
+###
+
+# Попробуем указать в should текст, который не должен найтись.
+# Запрос выполниться, но оценка будет меньше
+# Оценка - 3.674186
+
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["title","author","amazon_rating", "tags"],
+    "query": { 
+        "bool": { 
+            "must": [
+                {
+                    "match": {
+                        "author": "Joshua"
+                    }
+                }
+            ],
+            "must_not": [
+                {
+                    "range": {
+                        "amazon_rating": {
+                            "lt": 4.7
+                        }
+                    }
+                }
+            ],
+            "should": [{
+                "match": {
+                    "tags": "Recipes" 
+                }
+            }]
+        } 
+    } 
+}

@@ -1,0 +1,41 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+# --------------------------------------------
+
+### 
+# Если мы предоставим слово длиной 13 символов, 
+# оно будет разделено на два токена по семь и 
+# шесть символов (например, «Elasticsearch» станет 
+# «Elastic», «search»).
+PUT {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+{
+     "settings": {
+        "analysis": {
+            "analyzer": {
+                "standard_max_token_length":{
+                    "type":"standard",
+                    "max_token_length":7
+                }
+            }
+        }
+     }
+}
+
+
+### 
+# ["Peter_Piper", "picked", "a", "peck", "of", "PICKLED-peppers!!"]
+GET {{baseUrl}}/111/_analyze
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "analyzer": "whitespace",
+    "text": ["Peter_Piper picked a peck of PICKLED-peppers!!"]
+}

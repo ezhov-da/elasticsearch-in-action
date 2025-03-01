@@ -1,0 +1,85 @@
+# ВАЖНО! По умолчанию переиндексация выполняется с 
+# переносом данных из старого индекса
+
+PUT {{baseUrl}}/old_index
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "title": {
+                "type": "text"
+            }
+        }
+    }
+}
+
+###
+
+PUT {{baseUrl}}/old_index/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "title": "Test"
+}
+
+### 
+
+PUT {{baseUrl}}/new_index
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "mappings":{
+        "properties": {
+            "title": {
+                "type": "keyword"
+            }
+        }
+    }
+}
+
+### 
+
+POST {{baseUrl}}/_reindex
+Authorization: {{auth}}
+content-type: application/json
+
+{
+     "source": {"index": "old_index"},
+     "dest": {"index": "new_index"}
+}
+
+### 
+GET {{baseUrl}}/old_index/_count
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/new_index/_count
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/new_index/_mapping
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/new_index/_search
+Authorization: {{auth}}
+content-type: application/json
+
+# Удаление индексов --------------------------
+
+### 
+DELETE {{baseUrl}}/old_index
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+DELETE {{baseUrl}}/new_index
+Authorization: {{auth}}
+content-type: application/json

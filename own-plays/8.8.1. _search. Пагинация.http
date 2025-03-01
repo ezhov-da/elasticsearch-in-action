@@ -1,0 +1,17 @@
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "size": 2,
+    "from": 3,
+    "query": {
+        "match_all": {}
+    }
+}

@@ -1,0 +1,52 @@
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+GET {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "explain": true,
+    "size": 2,
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    },
+    "highlight": {
+        "fields": {
+            "title": {}
+        }
+    }
+
+}
+
+### 
+GET {{baseUrl}}/books/_explain/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "title": "Java"
+        }
+    }
+}
+
+### 
+# Объясняет, что не нашёл термы
+GET {{baseUrl}}/books/_explain/2
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "match": {
+            "title": "Javas"
+        }
+    }
+}

@@ -1,0 +1,89 @@
+# Обратите внимание, что ответ состоит из всех возвращенных 
+# документов, если мы явно не попросим их подавить. 
+
+POST {{baseUrl}}/covid/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "aggs": { 
+        "critical_patients": { 
+            "sum": {
+                "field": "critical"
+            }
+        }
+    } 
+}
+
+
+###
+
+# Мы можем установить size=0 на корневом уровне, 
+# чтобы очистить ответ от содержания оригинальных 
+# исходных документов
+
+POST {{baseUrl}}/covid/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "size": 0,
+    "aggs": { 
+        "critical_patients": { 
+            "sum": {
+                "field": "critical"
+            }
+        }
+    } 
+}
+
+###
+
+POST {{baseUrl}}/covid/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "size": 0,
+    "aggs": { 
+        "max_deaths": { 
+            "max": {
+                "field": "deaths"
+            }
+        }
+    } 
+}
+
+###
+# Возвращает все метрики, которые есть
+POST {{baseUrl}}/covid/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "size": 0,
+    "aggs": { 
+        "all_stats": { 
+            "stats": {
+                "field": "deaths"
+            }
+        }
+    } 
+}
+
+###
+# Расширенная статистика
+POST {{baseUrl}}/covid/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "size": 0,
+    "aggs": { 
+        "all_stats": { 
+            "extended_stats": {
+                "field": "deaths"
+            }
+        }
+    } 
+}

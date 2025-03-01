@@ -1,0 +1,33 @@
+# Удаление индексов --------------------------
+### 
+DELETE {{baseUrl}}/111
+Authorization: {{auth}}
+content-type: application/json
+
+### 
+DELETE {{baseUrl}}/222
+Authorization: {{auth}}
+content-type: application/json
+# --------------------------------------------
+
+###
+POST {{baseUrl}}/111/_doc/1
+Authorization: {{auth}}
+content-type: application/json
+
+{"title": "Elasticsearch in Action"}
+
+###
+POST {{baseUrl}}/_reindex
+Authorization: {{auth}}
+content-type: application/json
+
+ {
+     "source": {"index": "111"},
+     "dest": {"index": "222"}
+ }
+
+### 
+GET {{baseUrl}}/111,222/_search
+Authorization: {{auth}}
+content-type: application/json

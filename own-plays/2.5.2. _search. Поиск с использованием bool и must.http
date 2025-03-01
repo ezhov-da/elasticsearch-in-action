@@ -1,0 +1,42 @@
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["title","author"],
+    "query": { 
+        "bool": { 
+            "must": [{
+                "match": {
+                    "author": "Joshua Bloch"
+                }
+            }]
+        } 
+    } 
+}
+
+### 
+
+POST {{baseUrl}}/books/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "_source": ["title","author"],
+    "query": { 
+        "bool": { 
+            "must": [
+                {
+                    "match": {
+                        "author": "Joshua Bloch"
+                    }
+                },
+                {
+                    "match_phrase": {
+                        "synopsis": "best Java programming books"
+                    }
+                }
+            ]
+        } 
+    } 
+}
