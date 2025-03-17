@@ -1,0 +1,51 @@
+###
+# Скрипт показывает, что функция field_value_factor работает 
+# с полем (user_ ratings в этом листинге) для получения 
+# новой оценки релевантности. Мы можем добавлять атрибуты 
+# к функции field_value_score. Например, мы можем умножить 
+# оценку, используя атрибут factor и применяя математическую 
+# функцию, такую ​​как квадратный корень или логарифмическое 
+# вычисление. Следующий листинг показывает это в действии. 
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "function_score": {
+            "query": {
+                "term": {
+                    "product": "tv"
+                }
+            },
+            "field_value_factor": {
+                "field": "user_ratings"
+            }
+        }
+    }
+}
+
+###
+# Этот скрипт извлекает значение user_ratings из документа. 
+# Затем он умножает значение на коэффициент 2 и возводит 
+# его в квадрат. 
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "function_score": {
+            "query": {
+                "term": {
+                    "product": "tv"
+                }
+            },
+            "field_value_factor": {
+                "field": "user_ratings",
+                "factor": 2,
+                "modifier": "square"
+            }
+        }
+    }
+}

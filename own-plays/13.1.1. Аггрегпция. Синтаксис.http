@@ -1,0 +1,32 @@
+
+# Атрибут NAME, предоставленный пользователем, дает подходящее имя для агрегации.
+# AGG_TYPE — тип агрегации: сумма, минимум, максимум, диапазон, термины, гистограмма и т. д.
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "aggregations|aggs": {
+        "NAME": {
+            "AGG_TYPE": {}
+        }
+    }
+}
+
+###
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "QUERY_TYPE": {
+            "FIELD": "TEXT"
+        }
+    },
+    "aggs": {
+        "NAME": {
+            "AGG_TYPE": {}
+        }
+    }
+}

@@ -1,0 +1,59 @@
+###
+# constant_score оборачивает запрос фильтра и выдает 
+# результаты с предопределенной (повышенной) оценкой
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{ 
+    "query": { 
+      "constant_score": { 
+        "filter": { 
+          "range": { 
+            "user_ratings": { 
+              "gte": 4, 
+              "lte": 5 
+            } 
+        } 
+      }, 
+      "boost": 5.0 
+    } 
+  } 
+}
+
+###
+# Предложение must в этом запросе bool содержит два запроса: 
+# match и constant_score. Запрос constant_score фильтрует 
+# все телевизоры по цвету, но с поправкой: он повышает 
+# оценку на 3,5 для всех черных телевизоров. Здесь мы 
+# просим движок Elasticsearch принять наши входные данные 
+# при оценке результата, установив значение boost на 
+# наш выбор в отфильтрованном запросе, заключенном в 
+# constant_score. 
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": {
+                        "product": "TV"
+                    }
+                },
+                {
+                    "constant_score": {
+                        "filter": {
+                            "term": {
+                                "colour": "black"
+                            }
+                        },
+                        "boost": 3.5
+                    }
+                }
+            ]
+        }
+    }
+}

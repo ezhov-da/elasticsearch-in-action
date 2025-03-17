@@ -1,0 +1,25 @@
+
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "span_near": {
+            "clauses": [
+                {
+                    "span_term": {
+                        "quote": "plato"
+                    }
+                },
+                {
+                    "span_term": {
+                        "quote": "aristotle"
+                    }
+                }
+            ],
+            "slop": 3,
+            "in_order": true
+        }
+    }
+}

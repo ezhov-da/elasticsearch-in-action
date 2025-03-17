@@ -1,0 +1,19 @@
+# Предположим, мы хотим найти определенное слово в первых 
+# n токенах. Например, мы хотим узнать, есть ли Аристотель 
+# в первых пяти позициях наших документов
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "span_first": {
+            "match": {
+                "span_term": {
+                    "quote": "aristotle"
+                }
+            },
+            "end": 5
+        }
+    }
+}

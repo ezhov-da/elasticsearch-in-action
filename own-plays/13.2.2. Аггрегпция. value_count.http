@@ -1,0 +1,20 @@
+
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+###
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "size": 0,
+    "aggs": {
+        "total-number-of-values": {
+            "value_count": {
+                "field": "resolution"
+            }
+        }
+    }
+}

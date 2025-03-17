@@ -1,0 +1,29 @@
+###
+# Предположим, мы хотим утроить оценку документа (умножить 
+# значение поля на коэффициент 3) на основе значения 
+# поля (например, user_rating продукта). В этом случае 
+# мы можем использовать функцию script_score для вычисления 
+# оценки на основе значений других полей (например, user_ratings) 
+# в документе. 
+GET {{baseUrl}}/products/_search
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "query": {
+        "function_score": {
+            "query": {
+                "term": {
+                    "product": "tv"
+                }
+            },
+            "script_score": {
+                "script": { "source": "_score * doc['user_ratings'].value * params['factor']",
+                    "params": {
+                        "factor": 3
+                    }
+                }
+            }
+        }
+    }
+}
